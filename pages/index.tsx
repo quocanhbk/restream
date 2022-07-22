@@ -1,4 +1,4 @@
-import { Box, Button,  } from "@chakra-ui/react"
+import { Button, Flex, Image, Text } from "@chakra-ui/react"
 import type { NextPage } from "next"
 
 export const CLIENT_ID = "138ecd0c-0960-44e0-95a0-94932cae99eb"
@@ -11,9 +11,29 @@ const Home: NextPage = () => {
     }
 
     return (
-        <Box p={4}>
-            <Button onClick={handleClick}>Login To Restream</Button>
-        </Box>
+        <Flex p={4} w="full" align="center" justify={"center"} h="100vh">
+            <Flex direction={"column"} align="center">
+                <Button
+                    onClick={handleClick}
+                    leftIcon={
+                        <Image
+                            src="https://restream.io/landings-assets/img/restream-circle-dark-54719416b5f95b54c661f0344f931ff9.svg"
+                            h="1.5rem"
+                            alt="restream"
+                        />
+                    }
+                    size="lg"
+                    mb={4}
+                    variant="outline"
+                >
+                    Login To Restream
+                </Button>
+                <Text textAlign={"center"}>
+                    {`After logged in, an access token is generated and will be
+                    sent to Sipher's backend to track streaming status.`}
+                </Text>
+            </Flex>
+        </Flex>
     )
 }
 
