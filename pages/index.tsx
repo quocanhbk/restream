@@ -1,43 +1,17 @@
-import { Box, Button, Tag } from "@chakra-ui/react"
-import axios from "axios"
+import { Box, Button,  } from "@chakra-ui/react"
 import type { NextPage } from "next"
-import { useEffect, useState } from "react"
 
 export const CLIENT_ID = "138ecd0c-0960-44e0-95a0-94932cae99eb"
-export const CLIENT_SECRET = "ae7f4e2b-7a2b-4943-98ee-bfb3b857919f"
-export const REDIRECT_URL = "http://localhost:3002/api/auth"
 
 const Home: NextPage = () => {
     const handleClick = () => {
         window.open(
-            `https://api.restream.io/login?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&state=sipher`
+            `https://api.restream.io/login?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=sipher`
         )
     }
 
-    const [isLive, setIsLive] = useState(false)
-
-    useEffect(() => {
-        const accessToken = "bf54ade461e3635a494c402b0849958ad34dbb1a"
-        const url = `wss://streaming.api.restream.io/ws?accessToken=${accessToken}`
-        const connection = new WebSocket(url)
-
-        connection.onmessage = (message) => {
-            // IUpdates interface is provided on the right
-            const update = JSON.parse(message.data)
-            if (JSON.parse(message.data).action === "updateIncoming") {
-                setIsLive(true)
-            } else if (JSON.parse(message.data).action === "deleteIncoming") {
-                setIsLive(false)
-            }
-            console.log(update)
-        }
-
-        connection.onerror = console.error
-    }, [])
-
     return (
         <Box p={4}>
-            {isLive && <Tag colorScheme={"red"}>LIVE</Tag>}
             <Button onClick={handleClick}>Login To Restream</Button>
         </Box>
     )
